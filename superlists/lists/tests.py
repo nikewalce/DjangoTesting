@@ -1,16 +1,19 @@
-from django.urls import resolve
 from django.test import TestCase
-from lists.view import home_page
+from django.urls import resolve
+from lists.views import home_page
 
 class HomePageTest(TestCase):
-    'тест домашней страницы'
+
     def test_root_url_resolves_to_home_page_view(self):
-        '''корневой url преобразуется в представление домашней страницы'''
         found = resolve('/')
         self.assertEqual(found.func, home_page)
 
-    59 стр
-    
+    def test_home_page_returns_correct_html(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'home.html')
+        self.assertContains(response, 'Добро пожаловать на страницу списков дел!')
+
+
 class SmokeTest(TestCase):
-    def test_bad_maths(self):
-        self.assertEqual(1+1, 3)
+    def test_math(self):
+        self.assertEqual(1 + 1, 2)
